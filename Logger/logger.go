@@ -91,7 +91,6 @@ func (l *Log) SetLogger(Level int, FilePath string, MaxDay int64) {
 func (l *Log) logWriteToFile() {
 	for logline := range l.logChannels {
 		if logline != "" {
-			fmt.Println(logline)
 			currentDate := time.Now().Format("2006-01-02")
 			if currentDate != l.currentDate {
 				l.createLogFile(time.Now())
