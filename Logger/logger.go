@@ -157,7 +157,7 @@ func formatLogFileName(data time.Time) string {
 
 // 获取对应文件名，行号，方法名
 func (l *Log) logWithCallerInfo(format string, a ...interface{}) string {
-	pc, file, line, _ := runtime.Caller(2)
+	pc, file, line, _ := runtime.Caller(3)
 	funcName := runtime.FuncForPC(pc).Name()
 	message := fmt.Sprintf(format, a...)
 	Level := l.GetLevelString()
