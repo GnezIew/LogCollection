@@ -64,6 +64,11 @@ func (l *Log) SetLogger(Level int, FilePath string, MaxDay int64) {
 		}
 	}
 	if FilePath != "" {
+		// 确保日志文件目录存在
+		err := os.MkdirAll(FilePath, 0777)
+		if err != nil {
+			log.Fatal(err)
+		}
 		l.FilePath = FilePath
 	}
 	l.MaxDay = MaxDay
