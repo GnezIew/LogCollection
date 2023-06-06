@@ -46,13 +46,6 @@ func (l *Log) InitLogger() {
 	l.MaxDay = 7
 	l.FilePath = "."
 	l.logChannels = make(chan string, 3000)
-	// 清理日志文件
-	go func() {
-		err := l.clearOldLogs()
-		if err != nil {
-			log.Println("Failed to clean old logs:", err)
-		}
-	}()
 }
 
 func (l *Log) SetLogger(Level int, FilePath string, MaxDay int64) {
@@ -85,6 +78,13 @@ func (l *Log) SetLogger(Level int, FilePath string, MaxDay int64) {
 
 	l.currentFile = File
 	l.currentDate = formatLogFileName(time.Now())
+	// 清理日志文件
+	go func() {
+		err = l.clearOldLogs()
+		if err != nil {
+			log.Println("Failed to clean old logs:", err)
+		}
+	}()
 	go l.logWriteToFile()
 }
 
@@ -216,8 +216,8 @@ func (l *Log) clearOldLogs() error {
 				if err = os.Remove(path); err != nil {
 					return err
 				}
+				log.Printf("Removed log file: %s\n", path)
 			}
-			log.Printf("Removed log file: %s\n", path)
 		}
 
 		return nil
