@@ -132,7 +132,8 @@ func (l *Log) createLogFile(date time.Time) {
 }
 
 func (l *Log) Errorf(format string, a ...interface{}) {
-
+	l.LogLevel = Error
+	l.syncWriteLog(format, a...)
 }
 
 func (l *Log) Infof(format string, a ...interface{}) {
@@ -174,7 +175,7 @@ func (l *Log) logWithCallerInfo(logline string) string {
 	pc, file, line, _ := runtime.Caller(3)
 	funcName := runtime.FuncForPC(pc).Name()
 	Level := l.GetLevelString()
-	return fmt.Sprintf("[%s] fileLine:%s:%d funcName:%s;message:%s\n", Level, file, line, getFunctionName(funcName), logline)
+	return fmt.Sprintf("[%s][%s] fileLine:%s:%d funcName:%s;message:%s\n", Level, time.Now().Format("2006-01-02 15:04:05"), file, line, getFunctionName(funcName), logline)
 }
 
 // 获取对应的方法名
