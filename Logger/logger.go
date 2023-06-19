@@ -137,6 +137,7 @@ func (l *Log) Errorf(format string, a ...interface{}) {
 }
 
 func (l *Log) Infof(format string, a ...interface{}) {
+	l.LogLevel = Info
 	l.syncWriteLog(format, a...)
 }
 
